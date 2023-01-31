@@ -5,9 +5,14 @@ const UsuarioSchema = Schema({
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
-    documento: {
+    correo: {
         type: String,
-        required: [true, 'El documento es obligatorio']
+        required: [true, 'El correo es obligatorio'],
+        unique: true
+    },
+    password: {
+        type: String,
+        required: [true, 'La contraseña es obligatoria']
     },
     carritos: {
         type: [Schema.Types.ObjectId],

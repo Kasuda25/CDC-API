@@ -29,8 +29,8 @@ export const usuariosPost = async (req, res = response) => {
         return res.status(400).json(errors);
     }
 
-    const { nombre, documento } = req.body;
-    const usuario = new Usuario({ nombre, documento });
+    const { nombre, correo, password } = req.body;
+    const usuario = new Usuario({ nombre, correo, password });
 
     await usuario.save();
 

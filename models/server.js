@@ -4,6 +4,7 @@ import { dbConnection } from "../db/config.js";
 import { routerUsuarios } from "../routes/usuarios.js";
 import { routerProductos } from "../routes/productos.js";
 import { routerCarritos } from "../routes/carritos.js";
+import { routerAuth } from "../routes/auth.js";
 
 export default class Server {
     constructor() {
@@ -11,6 +12,7 @@ export default class Server {
         this.port = process.env.PORT;
 
         this.paths = {
+            auth: '/api/auth',
             carrito: '/api/carrito',
             productos: '/api/productos',
             usuarios: '/api/usuarios'
@@ -34,6 +36,7 @@ export default class Server {
     }
 
     routes() {
+        this.app.use(this.paths.auth, routerAuth);
         this.app.use(this.paths.carrito, routerCarritos);
         this.app.use(this.paths.productos, routerProductos);
         this.app.use(this.paths.usuarios, routerUsuarios);

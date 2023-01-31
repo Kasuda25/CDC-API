@@ -14,3 +14,10 @@ export const existeProductoPorId = async (id) => {
         throw new Error(`El id no existe ${id}`);
     }
 }
+
+export const existeCorreo = async (correo = '') => {
+    const existeEmail = await Usuario.findOne({ correo });
+    if (existeEmail) {
+        throw new Error('El correo ya está registrado');
+    }
+}
