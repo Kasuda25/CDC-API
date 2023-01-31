@@ -1,6 +1,7 @@
 import { response } from "express";
 import Usuario from "../models/usuario.js"
 import { validationResult } from "express-validator"
+import bcryptjs from "bcryptjs";
 
 export const usuariosGet = async (req, res = response) => {
     const query = { estado: true };
@@ -31,6 +32,9 @@ export const usuariosPost = async (req, res = response) => {
 
     const { nombre, correo, password } = req.body;
     const usuario = new Usuario({ nombre, correo, password });
+
+    const salt = bcryptjs.genSaltSync();
+    usuario.password = bcryptjs.hashSync(password, salt);
 
     await usuario.save();
 

@@ -1,6 +1,7 @@
 import { response } from "express";
 import Usuario from '../models/usuario.js';
 import { generarJWT } from "../helpers/generar-jwt.js";
+import bcryptjs from "bcryptjs";
 
 export const login = async (req, res = response) => {
     const { correo, password } = req.body;
@@ -19,9 +20,10 @@ export const login = async (req, res = response) => {
             });
         }
 
-        if (!usuario.password) {
+        const validPassword = bcryptjs.compareSync(password, usuario.password);
+        if (!validPassword) {
             return res.status(400).json({
-                msg: 'La contraseña es incorrecta'
+                msg: 'Usuario / Password no son correctos - password'
             });
         }
 
