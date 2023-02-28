@@ -5,7 +5,7 @@ export const generarJWT = (uid = '') => {
         const payload = { uid };
 
         jwt.sign(payload, process.env.SECRETORPRIVATEKEY, {
-            expiresIn: '12h'
+            expiresIn: '10m'
         }, (err, token) => {
             if (err) {
                 console.log(err);
@@ -15,4 +15,21 @@ export const generarJWT = (uid = '') => {
             }
         });
     })
+}
+
+export const generarRefreshToken = (uid = '') => {
+    return new Promise((resolve, reject) => {
+        const payload = { uid };
+
+        jwt.sign(payload, process.env.SECRETORPRIVATEKEY, {
+            expiresIn: '1h'
+        }, (err, refreshToken) => {
+            if (err) {
+                console.log(err);
+                reject('No se pudo generar el refresh token');
+            } else {
+                resolve(refreshToken);
+            }
+        });
+    });
 }

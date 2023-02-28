@@ -1,7 +1,8 @@
 import { response } from "express";
 import Usuario from '../models/usuario.js';
-import { generarJWT } from "../helpers/generar-jwt.js";
+import { generarJWT, generarRefreshToken } from "../helpers/generar-jwt.js";
 import bcryptjs from "bcryptjs";
+import JWT from "../models/jwt.js";
 
 export const login = async (req, res = response) => {
     const { correo, password } = req.body;
@@ -28,10 +29,16 @@ export const login = async (req, res = response) => {
         }
 
         const token = await generarJWT(usuario.id);
+        const refreshToken = await generarRefreshToken(usuario.id);
+
+        const rjwt = new JWT({ refreshToken });
+
+        await rjwt.save();
 
         res.json({
             usuario,
-            token
+            token,
+            refreshToken
         });
     } catch (error) {
         console.log(error)

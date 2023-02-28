@@ -3,7 +3,7 @@ import { check } from "express-validator";
 import { productoPut, productoDelete, productoGet, productoPost, productosGet } from "../controllers/productos.js";
 import { existeProductoPorId } from "../helpers/db-validators.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
-import { validarJWT } from "../middlewares/validar-jwt.js";
+import { validarJWT, validarRJWT } from "../middlewares/validar-jwt.js";
 
 export const routerProductos = Router();
 
@@ -18,6 +18,7 @@ routerProductos.get('/:id', [
 
 routerProductos.post('/', [
     validarJWT,
+    validarRJWT,
     check('nombre', 'El nombre es obligaotrio').not().isEmpty(),
     check('precio', 'El precio es obligatorio').not().isEmpty(),
     validarCampos
