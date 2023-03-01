@@ -3,7 +3,7 @@ import { check } from "express-validator";
 import { usuarioGet, usuariosDelete, usuariosGet, usuariosPost, usuariosPut } from "../controllers/usuarios.js";
 import { existeCorreo, existeUsuarioPorId } from "../helpers/db-validators.js";
 import { validarCampos } from "../middlewares/validar-campos.js";
-import { validarJWT } from "../middlewares/validar-jwt.js";
+import { validarJWT, validarRJWT } from "../middlewares/validar-jwt.js";
 
 export const routerUsuarios = Router();
 
@@ -11,6 +11,7 @@ routerUsuarios.get('/', usuariosGet);
 
 routerUsuarios.get('/:id', [
     validarJWT,
+    validarRJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
@@ -26,6 +27,7 @@ routerUsuarios.post('/', [
 
 routerUsuarios.put('/:id', [
     validarJWT,
+    validarRJWT,
     check('id', 'No es un ID valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos
@@ -33,6 +35,7 @@ routerUsuarios.put('/:id', [
 
 routerUsuarios.delete('/:id', [
     validarJWT,
+    validarRJWT,
     check('id', 'No es un ID valido').isMongoId(),
     check('id').custom(existeUsuarioPorId),
     validarCampos

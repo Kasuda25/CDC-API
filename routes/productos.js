@@ -11,6 +11,7 @@ routerProductos.get('/', productosGet);
 
 routerProductos.get('/:id', [
     validarJWT,
+    validarRJWT,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeProductoPorId),
     validarCampos
@@ -26,12 +27,14 @@ routerProductos.post('/', [
 
 routerProductos.put('/:id', [
     validarJWT,
+    validarRJWT,
     check('id').custom(existeProductoPorId),
     validarCampos
 ], productoPut);
 
 routerProductos.delete('/:id', [
     validarJWT,
+    validarRJWT,
     check('id', 'No es un id válido').isMongoId(),
     check('id').custom(existeProductoPorId),
     validarCampos
